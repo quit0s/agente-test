@@ -1,0 +1,7 @@
+Esta carpeta models tiene un archivo por cada tabla de la base de datos.
+En cada uno de ellos se deben crear las funciones que interactuen con la misma. 
+Luego deben ser exportadas todas juntoas dentro de un model que sera importado desde el index.
+En el index se exportara un model llamado models que contendra todos los models de la carpeta.
+De esta forma se pueden acceder a cualquiera de ellos de la siguiente forma:
+
+models.medics_model.getMedicById(id);
