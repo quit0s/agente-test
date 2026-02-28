@@ -8,7 +8,7 @@ const client = new OpenAI({apiKey: process.env.OPENAI_API_KEY });
 const response = await client.responses.create({
     model: "gpt-5",
     tools: tools,
-    input: "sacame un turno para mañana. Mi dni es 46871500",
+    input: "sacame un turno para mañana. Mi dni es 47066792",
 })
 
 console.log(response.output);
