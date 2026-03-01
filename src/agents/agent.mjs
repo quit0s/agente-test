@@ -5,35 +5,78 @@ import { tools, tool_handlers } from "./tools/index.mjs";
 
 const client = new OpenAI({apiKey: process.env.OPENAI_API_KEY });
 
-const response = await client.responses.create({
-    model: "gpt-5",
-    tools: tools,
-    input: "sacame un turno para mañana. Mi dni es 47066792",
-})
 
-console.log(response.output);
+try {
 
-for(const item of response.output) {
-    if(item.type == "function_call"){
-        const handler = tool_handlers[item.name];
-        if(!handler) throw new Error(`No handler for ${item.name}`);
+    const response = await client.responses.create({
+        model: "gpt-5",
+        tools: tools,
+        input: "Dame la info sobre le medico con id 9008",
+    })
 
-        const args = JSON.parse(item.arguments || "{}");
-        const result = await handler(args.dni, args.fecha);
-        const toolOutput = result === undefined ? "ok" : JSON.stringify(result);
+    const function_call_output = [];
 
-        const followup = await client.responses.create({
+    for(let i = 0; i < response.output.length; i++){
+        const item = response.output[i];
+
+        if(item.type == "function_call"){
+            const handler = tool_handlers[item.name];
+
+            if(!handler){
+                console.error(`Error: no handler for ${item.name}`);
+                function_call_output.push({
+                        type:"function_call_output",
+                        call_id:item.call_id,
+                        output: JSON.stringify({success:false, error: `Error: no handler for ${item.name}` }),                        
+                    });
+            }else{
+                const args = JSON.parse(item.arguments||"{}");
+                const handler_output = await handler(args);
+
+                if(!handler_output){
+                    console.error(`Error: handler returned nothing ${item.name}.`);
+                    function_call_output.push({
+                        type:"function_call_output",
+                        call_id:item.call_id,
+                        output: JSON.stringify({
+                            success:false,
+                            error: `Error: handler returned nothing ${item.name}`,
+                         }),                        
+                    });
+                }else if(handler_output.success == false){
+                    console.error(`Error: handler returned error ${item.name}.`,handler_output.error);
+                    function_call_output.push({
+                        type:"function_call_output",
+                        call_id:item.call_id,
+                        output: JSON.stringify(handler_output),                        
+                    });
+                }else{
+                    function_call_output.push({
+                        type:"function_call_output",
+                        call_id:item.call_id,
+                        output: JSON.stringify(handler_output)
+                    });
+                };
+            };
+        };
+    };
+
+    if(function_call_output.length > 0){
+    const followup = await client.responses.create({
             model: "gpt-5",
             previous_response_id: response.id,
-            input: [{
-                type: "function_call_output",
-                call_id: item.call_id,
-                output: toolOutput,
-            }],
+            input: function_call_output,
         });
-        console.log(followup.output)
         console.log(followup.output_text);
+
+    }else{
+        console.log(response.output_text);
     }
+
+} catch (error) {
+    console.error("Agent error:", error.message);
 }
 
-console.log(response.output_text);
+
+
+

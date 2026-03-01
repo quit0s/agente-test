@@ -6,6 +6,8 @@ async function get_medic_by_id(id){
     const result = await query(sql,[id]);
 
     return result.rows[0] ?? null;
+
+  
 }
 
 const medics_model = {get_medic_by_id};

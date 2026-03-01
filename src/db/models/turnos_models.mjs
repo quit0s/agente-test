@@ -2,7 +2,7 @@ import {query} from '../connection.mjs';
 
 async function create_turno(dni, fecha){
 
-    const sql = 'INSERT INTO turnos (id_turno,dni,fecha) VALUES (321 ,$1 , $2)';
+    const sql = 'INSERT INTO turnos (id_turno,dni,fecha) VALUES (32132155 ,$1 , $2)';
     await query(sql,[dni,fecha]);
 
 }
