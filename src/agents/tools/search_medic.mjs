@@ -23,4 +23,23 @@ async function search_medic_by_id({id}){
     }
 }
 
-export {search_medic_by_id};
+const search_medic_by_id_description = {
+     
+    type: 'function',
+    name: 'search_medic_by_id',
+    description: 'Busca al medico a traves de su identificador(id) de la tabla medics',
+    parameters: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'integer',
+          description: 'Identificador (id) unico, dentro de la tabla medics.',
+        },
+      },
+      required: ['id'],
+      additionalProperties: false,
+    },
+  
+}
+
+export {search_medic_by_id, search_medic_by_id_description};

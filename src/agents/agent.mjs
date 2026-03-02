@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import "dotenv/config";
-import { tools, tool_handlers } from "./tools/index.mjs";
+import { tools_descriptions, tools_handlers } from "./tools/index.mjs";
 
 
 const client = new OpenAI({apiKey: process.env.OPENAI_API_KEY });
@@ -10,7 +10,7 @@ try {
 
     const response = await client.responses.create({
         model: "gpt-5",
-        tools: tools,
+        tools: tools_descriptions,
         input: "Dame la info sobre le medico con id 9008",
     })
 
@@ -20,7 +20,7 @@ try {
         const item = response.output[i];
 
         if(item.type == "function_call"){
-            const handler = tool_handlers[item.name];
+            const handler = tools_handlers[item.name];
 
             if(!handler){
                 console.error(`Error: no handler for ${item.name}`);

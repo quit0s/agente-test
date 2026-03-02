@@ -1,73 +1,91 @@
 /*
-EJERCICIOS JSON (editar este archivo y ejecutar: node app.mjs)
-
-Objetivo:
-1) Entender {} (objeto) y [] (array)
-2) Practicar JSON.stringify y JSON.parse
+EJERCICIOS DE CLASES EN JAVASCRIPT
+Ejecutar: node app.mjs
 */
 
-console.log("=== Ejercicios de JSON ===\n");
+console.log("=== Ejercicios de Clases ===\n");
 
 // EJERCICIO 1:
-// Crea un objeto "paciente" con:
-// dni (number), nombre (string), tieneObraSocial (boolean)
-const paciente = {
-    dni: 46871500,
-    nombre: "Marcos",
-    tieneObraSocial: true,
-};
-console.log("EJ 1 -> paciente:", paciente);
+// Crea una clase Paciente con constructor(dni, nombre).
+// Dentro del constructor guardá esos valores en this.dni y this.nombre.
+class Paciente {
+    constructor(dni,nombre){
+        this.dni = dni;
+        this.nombre = nombre;
+    };
+}
 
 // EJERCICIO 2:
-// Crea un array "diasDisponibles" con 3 strings (por ej: "lunes", "martes", "miercoles")
-const diasDisponibles = [
-  "Lunes","Martes","Miercoles"
-];
-console.log("EJ 2 -> diasDisponibles:", diasDisponibles);
+// Crea una instancia de Paciente con tus datos.
+const paciente1 = new Paciente(46871500,"Marcos"); // TODO: new Paciente(...)
+console.log("EJ 2 -> instancia:", paciente1);
 
 // EJERCICIO 3:
-// Muestra en consola el nombre del paciente y el primer dia disponible.
-// Esperado: usar paciente.nombre y diasDisponibles[0]
-console.log("EJ 3 -> nombre paciente:", paciente.nombre); // TODO
-console.log("EJ 3 -> primer dia:", diasDisponibles[0]); // TODO
+// Agrega un método presentarse() que devuelva:
+// "Hola, soy {nombre} y mi DNI es {dni}"
+
+Paciente.prototype.presentarse = function (){console.log("Hola ", this.nombre)};
+// TODO: definir el metodo
+// Paciente.prototype.presentarse = function () { ... };
+console.log(
+  "EJ 3 -> metodo:",
+  paciente1 && typeof paciente1.presentarse === "function"
+    ? paciente1.presentarse()
+    : "TODO"
+);
 
 // EJERCICIO 4:
-// Convierte el objeto paciente a texto JSON y guardalo en pacienteJson
-const pacienteJson = JSON.stringify(paciente); // TODO
-console.log("EJ 4 -> pacienteJson:", pacienteJson);
-console.log("EJ 4 -> tipo:", typeof pacienteJson); // string
+// Crea una clase Medico con:
+// constructor(id, nombre, especialidad)
+// método resumen() => "{nombre} - {especialidad}"
+class Medico {
+  // TODO: constructor
+  // TODO: metodo resumen()
+}
+
+const medico1 = null; // TODO: new Medico(...)
+console.log(
+  "EJ 4 -> medico:",
+  medico1 && typeof medico1.resumen === "function" ? medico1.resumen() : "TODO"
+);
 
 // EJERCICIO 5:
-// Convierte pacienteJson de nuevo a objeto JS en "pacienteParseado"
-const pacienteParseado = JSON.parse(pacienteJson); // TODO
-console.log("EJ 5 -> pacienteParseado:", pacienteParseado);
-console.log("EJ 5 -> tipo:", typeof pacienteParseado); // object
+// ¿Cómo sabés si un objeto fue creado por una clase?
+console.log("EJ 5 -> paciente1 es Paciente:", paciente1 instanceof Paciente); // TODO true
+console.log("EJ 5 -> medico1 es Medico:", medico1 instanceof Medico); // TODO true
 
 // EJERCICIO 6:
-// Crea un objeto de respuesta de tool con:
-// { ok: true, data: { turno_id: 1234, fecha: "2026-03-02" } }
-// y conviertelo a texto JSON en "toolOutput"
-const toolOutput = JSON.stringify({
-    ok: true,
-    data: {
-        turno_id: 1234,
-        fecha: "2026-03-02",
-    }
-}); 
-console.log("EJ 6 -> toolOutput:", toolOutput);
+// Herencia: crea una clase MedicoEspecialista que extienda Medico.
+// Agregá "subespecialidad" y sobrescribí resumen() para incluirla.
+class MedicoEspecialista extends Medico {
+  // TODO: constructor con super(...)
+  // TODO: override de resumen()
+}
+
+const medico2 = null; // TODO: new MedicoEspecialista(...)
+console.log(
+  "EJ 6 -> especialista:",
+  medico2 && typeof medico2.resumen === "function" ? medico2.resumen() : "TODO"
+);
 
 // EJERCICIO 7:
-// Descomenta esta linea y corregi el JSON para que JSON.parse no falle.
-// Pista: JSON exige comillas dobles.
-const jsonRoto = '{"dni":47066792}';
-console.log("EJ 7 ->", JSON.parse(jsonRoto));
+// Pregunta conceptual:
+// ¿Por qué para una clase se usa "new"?
+// Respuesta esperada: porque crea una instancia y asigna "this".
+console.log("EJ 7 -> respuesta:", "TODO");
 
 // EJERCICIO 8:
-// ¿Esto es objeto o array? Completa con "objeto" o "array"
+// Crea una clase Turno con:
+// - constructor(dni, fecha)
+// - método confirmar() que devuelva:
+//   "Turno confirmado para {dni} el {fecha}"
+class Turno {
+  // TODO
+}
+const turno1 = null; // TODO
+console.log(
+  "EJ 8 -> turno:",
+  turno1 && typeof turno1.confirmar === "function" ? turno1.confirmar() : "TODO"
+);
 
-const ejemploA = { id: 1, nombre: "Ana" };
-const ejemploB = [1, 2, 3];
-console.log("EJ 8 -> ejemploA es: objeto"); // TODO
-console.log("EJ 8 -> ejemploB es: array"); // TODO
-
-console.log("\nTip: cuando termines, si queres te los corrijo uno por uno.");
+console.log("\nCompletalos y te los corrijo uno por uno.");
