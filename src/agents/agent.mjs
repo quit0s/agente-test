@@ -74,7 +74,9 @@ try {
     }
 
 } catch (error) {
+
     console.error("Agent error:", error.message);
+    
 }
 
 

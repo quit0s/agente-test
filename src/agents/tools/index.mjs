@@ -13,4 +13,4 @@ const tools_descriptions = [
   create_turno_description,
 ];
 
-export {tools_descriptions, tools_handlers}
+export {tools_descriptions, tools_handlers};
